@@ -12,6 +12,7 @@ import { NotionAPIImporter } from './formats/notion-api';
 import { OneNoteImporter } from './formats/onenote';
 import { RoamJSONImporter } from './formats/roam-json';
 import { TextbundleImporter } from './formats/textbundle';
+import { TodoistImporter } from './formats/todoist';
 import { TomboyImporter } from './formats/tomboy';
 import { truncateText } from './util';
 
@@ -319,6 +320,12 @@ export default class ImporterPlugin extends Plugin {
 				optionText: 'Textbundle (.textbundle, .textpack)',
 				importer: TextbundleImporter,
 				helpPermalink: 'import/textbundle',
+			},
+			'todoist': {
+				name: 'Todoist',
+				optionText: 'Todoist (API)',
+				importer: TodoistImporter,
+				formatDescription: 'Import your Todoist projects and tasks via the Todoist API.',
 			},
 			'tomboy': {
 				name: 'Tomboy/Gnote',
