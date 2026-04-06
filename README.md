@@ -1,44 +1,86 @@
 ![Obsidian Importer screenshot](/images/social.png)
 
-This Obsidian plugin allows you to import notes from other apps and file formats into your Obsidian vault. Notes are converted to plain text Markdown files.
+This Obsidian plugin allows you to import your Todoist projects and tasks into your Obsidian vault. Tasks are converted to plain text Markdown files.
 
-## Get started
+## Todoist Integration
 
-Install Importer in Obsidian → Community Plugins.
+### Get your Todoist API token
 
-Import guides are hosted on the [official Obsidian Help site](https://help.obsidian.md/import). You can help contribute to the guides on the [obsidian-help](https://github.com/obsidianmd/obsidian-help) repo.
+1. Open Todoist and go to **Settings → Integrations → Developer**
+2. Copy your personal API token
 
-- [Import from Apple Notes](https://help.obsidian.md/import/apple-notes)
-- [Import from Bear](https://help.obsidian.md/import/bear)
-- [Import from CSV files](https://help.obsidian.md/import/csv)
-- [Import from Evernote](https://help.obsidian.md/import/evernote)
-- [Import from Google Keep](https://help.obsidian.md/import/google-keep)
-- [Import from Microsoft OneNote](https://help.obsidian.md/import/onenote)
-- [Import from Notion](https://help.obsidian.md/import/notion)
-- [Import from Roam Research](https://help.obsidian.md/import/roam)
-- [Import from HTML files](https://help.obsidian.md/import/html)
-- [Import from Markdown files](https://help.obsidian.md/import/markdown)
-- Import from Apple Journal (HTML export)
+### Add the plugin to your local Obsidian
+
+This plugin is not yet published to the Obsidian Community Plugins directory, so you need to install it manually.
+
+**Prerequisites:** [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) must be installed on your machine.
+
+**Steps:**
+
+1. Clone or download this repository to your machine:
+   ```bash
+   git clone https://github.com/obsidianmd/obsidian-importer.git
+   cd obsidian-importer
+   ```
+
+2. Install dependencies and build the plugin:
+   ```bash
+   npm install
+   npm run build
+   ```
+
+3. Copy the built files into your Obsidian vault's plugins folder:
+   ```bash
+   # Replace <your-vault> with the path to your vault
+   mkdir -p <your-vault>/.obsidian/plugins/todoist-obsidian-importer
+   cp main.js manifest.json styles.css <your-vault>/.obsidian/plugins/todoist-obsidian-importer/
+   ```
+
+4. In Obsidian, go to **Settings → Community Plugins**, disable **Safe mode** if prompted, then enable **Todoist Obsidian Importer**.
+
+### Import your Todoist data
+
+1. Open the **Importer** plugin (ribbon icon or Command Palette → "Open Importer")
+2. Select **Todoist (API)** from the format dropdown
+3. Paste your API token into the **API Token** field
+4. Click **Load** to fetch your projects
+5. Check the projects you want to import
+6. (Optional) Enable **Import task comments** to include comments on each task
+7. Set your preferred **Output folder** (default: `Todoist`)
+8. Click **Import**
+
+One Markdown file will be created per project inside the output folder.
+
+### Output format
+
+Each project file includes a YAML frontmatter block and tasks rendered as Obsidian-compatible checklists:
+
+```markdown
+---
+todoist-id: "12345"
+url: "https://todoist.com/app/project/12345"
+color: berry
+---
+
+- [ ] Task title ⏫ 📅 2025-01-15 #label1 #label2
+  Task description if any
+  > A comment on this task
+  - [ ] Subtask
+
+## Section Name
+
+- [x] Completed task 🔼
+```
+
+**Priority indicators** map to the [Obsidian Tasks](https://publish.obsidian.md/tasks) plugin convention:
+
+| Todoist priority | Emoji |
+|---|---|
+| P1 (urgent) | ⏫ |
+| P2 (high) | 🔼 |
+| P3 (medium) | 🔽 |
+| P4 (normal) | *(none)* |
 
 ## Contributing
 
-Importer is a community-led project. You can explore pull requests and see the credits below for reference. The Obsidian team is not actively working on adding new import capabilities, but we welcome pull requests for new formats and improvements.
-
-Is a format missing? You can help! See our [Contribution guidelines](/CONTRIBUTING.md).
-
-Some issues have been [tagged with #bounty](https://github.com/obsidianmd/obsidian-importer/labels/bounty).
-
-## Credits
-
-This plugin relies on important contributions:
-
-- [@akosbalasko](https://github.com/akosbalasko) for Evernote import via [Yarle](https://github.com/akosbalasko/yarle) (MIT)
-- [@daledesilva](https://github.com/daledesilva) for Google Keep import
-- [@arthurtyukayev](https://github.com/arthurtyukayev) for Bear import
-- [@xheldon](https://github.com/Xheldon) for Notion API import
-- [@joshuatazrein](https://github.com/joshuatazrein) for Notion file-based import
-- [@polyipseity](https://github.com/polyipseity) for HTML attachments
-- [@8bitgentleman](https://github.com/8bitgentleman) for Roam import
-- [@p3rid0t](https://github.com/p3rid0t) for Microsoft OneNote import
-- [@mirnovov](https://github.com/mirnovov) for Apple Notes import
-- [@wzs](https://github.com/wzs) for Apple Journal import
+Is something not working? You can help! See our [Contribution guidelines](/CONTRIBUTING.md).
